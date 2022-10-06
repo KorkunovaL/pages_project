@@ -30,7 +30,7 @@ export class SignInComponent {
         localStorage.setItem("token", "foo");
         this.router.navigateByUrl("/welcomePage");
       } else {
-        alert("error");
+        alert("user doesn't exist");
       }
     });
   }
