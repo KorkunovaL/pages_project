@@ -1,0 +1,36 @@
+<div class="sign-in-form">
+  <h2>Sign in</h2>
+  <form [formGroup]="signInForm" novalidate (ngSubmit)="submit()">
+    <div>
+      <input placeholder="*login" formControlName="login" />
+      <div
+        class="alert alert-danger"
+        *ngIf="
+          signInForm.controls['login'].invalid &&
+          signInForm.controls['login'].touched
+        "
+      >
+        <span>Required field</span>
+      </div>
+    </div>
+    <div>
+      <input placeholder="*password" formControlName="password" />
+      <div
+        class="alert alert-danger"
+        *ngIf="
+          signInForm.controls['password'].invalid &&
+          signInForm.controls['password'].touched
+        "
+      >
+        <span> Required field</span>
+      </div>
+    </div>
+    <button [disabled]="signInForm.invalid" type="submit">Sign in</button>
+    <div>
+      <p>
+        Not registered?
+        <a routerLink="/signUp">Sign up</a>
+      </p>
+    </div>
+  </form>
+</div>

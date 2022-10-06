@@ -1,0 +1,34 @@
+.container{
+    display: flex;
+    flex-direction: row;
+}
+img{ 
+    padding-top: 170px;
+    padding-left: 100px;
+    object-fit: contain;
+    width: 700px;
+    height: 700px;
+    transform: translateY(50%); 
+    transform: translateX(50%);
+    
+}
+h1{
+    padding-top: 130px;
+    padding-left: 200px;
+    font-size: 150px;
+    width: 200px;
+    display: flex;
+    transform: translateX(100%);
+    color: white;
+    text-shadow: rgb(88, 88, 88) 5px 0 20px;
+   
+    
+}
+p{
+    
+    padding-top: 100px;
+}
+span{
+    font-size:170px;
+    margin-top: -30;
+}

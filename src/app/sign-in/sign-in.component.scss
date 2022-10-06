@@ -1,0 +1,51 @@
+
+
+.sign-in-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(50%);
+    width: 400px;
+    height: 450px;
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+    
+}
+form{
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+h2{
+  
+    color: rgb(99, 99, 99);
+    font-size: 30px;
+   
+}
+input{
+        width: 250px;    
+       padding: 17px;
+        border: 0;
+        border-bottom: 1px solid #000;
+        background-color: rgba(0,0,0,0);
+        outline: 0;  
+      } 
+  
+ button{
+    margin-top: 50px;
+    background-color:  rgb(95, 127, 133);
+    border: none;
+    color: white;
+    border-radius: 3px;
+    width: 100px;
+    height: 30px;
+
+ }
+ span{
+    color: rgb(209, 60, 129);
+ }

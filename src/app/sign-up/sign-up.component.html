@@ -1,0 +1,109 @@
+<div class="sign-up-form">
+  <h2>Sign up</h2>
+  <form [formGroup]="registrationForm" novalidate (ngSubmit)="submit()">
+    <div>
+      <label><input placeholder="*email" formControlName="email" /></label>
+      <div
+        class="alert alert-danger"
+        *ngIf="
+          registrationForm.controls['email'].invalid &&
+          registrationForm.controls['email'].touched
+        "
+      >
+        <span>Incorrect e-mail</span>
+      </div>
+    </div>
+    <div>
+      <input placeholder="*username" formControlName="userName" />
+      <div
+        class="alert alert-danger"
+        *ngIf="
+          registrationForm.controls['userName'].hasError('required') &&
+          registrationForm.controls['userName'].invalid &&
+          registrationForm.controls['userName'].touched
+        "
+      >
+        <span> Enter your name</span>
+      </div>
+      <div
+        class="user_min"
+        *ngIf="registrationForm.controls['userName'].hasError('minlength')"
+      >
+        <span>Use 4 or more characters with a mix of letters</span>
+      </div>
+
+      <div
+        class="user_max"
+        *ngIf="registrationForm.controls['userName'].hasError('maxlength')"
+      >
+        <span>Use 64 or less characters with a mix of letters </span>
+      </div>
+    </div>
+
+    <div>
+      <input placeholder="*password" formControlName="password" />
+      <div
+        class="alert alert-danger"
+        *ngIf="
+          registrationForm.controls['password'].hasError('required') &&
+          registrationForm.controls['password'].touched
+        "
+      >
+        <span> Incorrect password</span>
+      </div>
+      <div
+        class="password_min"
+        *ngIf="registrationForm.controls['password'].hasError('minlength')"
+      >
+        <span>Use 4 or more characters with a mix of letters</span>
+      </div>
+
+      <div
+        class="password_max"
+        *ngIf="registrationForm.controls['password'].hasError('maxlength')"
+      >
+        <span>Use 64 or less characters</span>
+      </div>
+      <div
+        class="passwordCustomValidator"
+        *ngIf="
+          registrationForm.controls['password'].touched &&
+          registrationForm.controls['password'].hasError('passwordStrength')
+        "
+      >
+        <span>it must contains uppercase letters and numbers</span>
+      </div>
+    </div>
+    <div>
+      <label
+        ><input
+          placeholder="*repeat yor password"
+          formControlName="repeatPassword"
+      /></label>
+    </div>
+
+    <div>
+      <span style="color: rgb(99, 99, 99)">+</span>
+      <input placeholder="phone number" formControlName="phone" />
+      <div
+        *ngIf="
+          registrationForm.controls['phone'].invalid &&
+          registrationForm.controls['phone'].touched
+        "
+      >
+        <span> The number must contain 9-12 digits</span>
+      </div>
+    </div>
+
+    <button [disabled]="registrationForm.invalid" type="submit">Sign up</button>
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        registrationForm.controls['submit'].invalid &&
+        registrationForm.controls['submit'].touched
+      "
+    >
+      <span> Please fill in the required fields</span>
+    </div>
+  </form>
+</div>
