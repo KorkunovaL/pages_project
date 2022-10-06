@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from "@angular/forms";
-import { RouterModule, Routes } from "@angular/router";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 

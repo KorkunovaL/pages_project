@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { AuthService } from "../auth/auth.service";
 
 @Component({
   selector: "app-login",
@@ -25,7 +24,6 @@ export class SignInComponent {
         password: this.signInForm.value.password,
       }),
     }).then((res) => {
-      // this.auth.setAuthenticated();
       if (res.status === 200) {
         localStorage.setItem("token", "foo");
         this.router.navigateByUrl("/welcomePage");
