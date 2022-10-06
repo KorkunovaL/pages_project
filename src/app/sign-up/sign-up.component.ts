@@ -34,7 +34,7 @@ export class SignUpComponent {
         [],
         [
           Validators.required,
-          Validators.minLength(4),
+          Validators.minLength(8),
           Validators.maxLength(64),
           this.createPasswordStrengthValidator(),
         ]
