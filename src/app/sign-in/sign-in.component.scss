@@ -44,8 +44,12 @@ input{
     border-radius: 3px;
     width: 100px;
     height: 30px;
-
  }
+
+ button:not(:disabled) {
+    cursor: pointer;
+ }
+
  span{
     color: rgb(209, 60, 129);
  }

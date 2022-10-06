@@ -2,7 +2,7 @@
   <h2>Sign up</h2>
   <form [formGroup]="registrationForm" novalidate (ngSubmit)="submit()">
     <div>
-      <label><input placeholder="*email" formControlName="email" /></label>
+      <input placeholder="*email" formControlName="email" />
       <div
         class="alert alert-danger"
         *ngIf="
@@ -75,11 +75,19 @@
       </div>
     </div>
     <div>
-      <label
-        ><input
-          placeholder="*repeat yor password"
-          formControlName="repeatPassword"
-      /></label>
+      <input
+        placeholder="*repeat yor password"
+        formControlName="repeatPassword"
+      />
+      <div
+        *ngIf="
+          (registrationForm.errors?.['identityRevealed'] ||
+            registrationForm.controls['repeatPassword'].invalid) &&
+          registrationForm.controls['repeatPassword'].touched
+        "
+      >
+        <span>Password doesn't match</span>
+      </div>
     </div>
 
     <div>
@@ -99,8 +107,8 @@
     <div
       class="alert alert-danger"
       *ngIf="
-        registrationForm.controls['submit'].invalid &&
-        registrationForm.controls['submit'].touched
+        registrationForm?.controls?.['submit']?.invalid &&
+        registrationForm?.controls?.['submit']?.touched
       "
     >
       <span> Please fill in the required fields</span>
