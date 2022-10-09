@@ -9,5 +9,7 @@ import { Router } from "@angular/router";
 })
 @Injectable()
 export class AppComponent {
-  constructor(public router: Router) {}
+  constructor(public router: Router) {
+    localStorage.clear();
+  }
 }
