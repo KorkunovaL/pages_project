@@ -24,7 +24,12 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  { path: "**", redirectTo: "signIn" },
+  {
+    path: "error",
+    loadChildren: () =>
+      import("./error/error.module").then((m) => m.ErrorModule),
+  },
+  { path: "**", redirectTo: "error", pathMatch: "full" },
 ];
 
 @NgModule({
