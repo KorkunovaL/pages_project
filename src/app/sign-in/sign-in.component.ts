@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-login",
@@ -9,27 +10,30 @@ import { Router } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignInComponent {
-  constructor(private router: Router) {}
-  signInForm: FormGroup = new FormGroup({
+  public signInForm: FormGroup = new FormGroup({
     login: new FormControl([], Validators.required),
     password: new FormControl([], Validators.required),
   });
-  submit() {
-    console.log(this.signInForm);
-    fetch("https://dummyjson.com/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: this.signInForm.value.login,
-        password: this.signInForm.value.password,
-      }),
-    }).then((res) => {
-      if (res.status === 200) {
-        localStorage.setItem("token", "foo");
-        this.router.navigateByUrl("/welcomePage");
-      } else {
-        alert("user doesn't exist");
-      }
+  constructor(private router: Router, private http: HttpClient) {}
+
+  public testSubmit(): void {
+    const payload = JSON.stringify({
+      username: this.signInForm.value.login,
+      password: this.signInForm.value.password,
     });
+    this.http
+      .post("https://dummyjson.com/auth/login", payload, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .subscribe({
+        next: (response: any) => {
+          localStorage.setItem("token", response.token);
+          this.router.navigateByUrl("/welcomePage");
+          console.log(response);
+        },
+        error: () => {
+          alert("ERROR, user doesn't exist!");
+        },
+      });
   }
 }

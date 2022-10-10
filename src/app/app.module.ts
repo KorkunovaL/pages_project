@@ -6,6 +6,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { SignInModule } from "./sign-in/sign-in.module";
 import { SignUpModule } from "./sign-up/sign-up.module";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AuthService } from "./auth/auth.service";
 import { AuthGuardService } from "./auth/auth-guard.service";
@@ -19,6 +20,7 @@ import { AuthGuardService } from "./auth/auth-guard.service";
     FormsModule,
     SignInModule,
     SignUpModule,
+    HttpClientModule,
   ],
   bootstrap: [AppComponent],
   providers: [AuthService, AuthGuardService],

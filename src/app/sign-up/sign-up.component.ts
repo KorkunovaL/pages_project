@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-sign-up",
@@ -10,9 +11,9 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
-  identityRevealedValidator: ValidatorFn = (
+  public identityRevealedValidator: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
     const pass = control.get("password");
@@ -22,8 +23,7 @@ export class SignUpComponent {
       ? { identityRevealed: true }
       : null;
   };
-
-  registrationForm: FormGroup = new FormGroup(
+  public registrationForm: FormGroup = new FormGroup(
     {
       email: new FormControl([], [Validators.required, Validators.email]),
       userName: new FormControl(
@@ -49,7 +49,7 @@ export class SignUpComponent {
     { validators: this.identityRevealedValidator }
   );
 
-  createPasswordStrengthValidator(): ValidatorFn {
+  public createPasswordStrengthValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
       if (!value) {
@@ -63,18 +63,24 @@ export class SignUpComponent {
         : null;
     };
   }
-
-  submit() {
-    console.log(this.registrationForm);
-    fetch("https://dummyjson.com/users/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: this.registrationForm.value.email,
-        userName: this.registrationForm.value.userName,
-        password: this.registrationForm.value.password,
-        phone: this.registrationForm.value.phone,
-      }),
-    }).then(() => this.router.navigateByUrl("signIn"));
+  public submit(): void {
+    const payload = JSON.stringify({
+      email: this.registrationForm.value.email,
+      username: this.registrationForm.value.login,
+      password: this.registrationForm.value.password,
+      repeatPassword: this.registrationForm.value.repeatPassword,
+      phone: this.registrationForm.value.phone,
+    });
+    this.http
+      .post("https://dummyjson.com/users/add", payload, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .subscribe({
+        next: (response: any) => {
+          localStorage.setItem("token", response.token);
+          this.router.navigateByUrl("signIn");
+          console.log(response);
+        },
+      });
   }
 }
