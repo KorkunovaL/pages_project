@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
@@ -10,8 +10,42 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ["./sign-up.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
+  public registrationForm!: FormGroup;
+
   constructor(private router: Router, private http: HttpClient) {}
+
+  public ngOnInit(): void {
+    this.registrationForm = new FormGroup(
+      {
+        email: new FormControl([], [Validators.required, Validators.email]),
+        userName: new FormControl(
+          [],
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(64),
+          ]
+        ),
+        password: new FormControl(
+          [],
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(64),
+            this.createPasswordStrengthValidator(),
+          ]
+        ),
+
+        repeatPassword: new FormControl(
+          [],
+          [Validators.required, this.identityRevealedValidator]
+        ),
+        phone: new FormControl([], Validators.pattern("^[0-9_-]{9,15}")),
+      },
+      { validators: this.identityRevealedValidator }
+    );
+  }
 
   public identityRevealedValidator: ValidatorFn = (
     control: AbstractControl
@@ -23,31 +57,6 @@ export class SignUpComponent {
       ? { identityRevealed: true }
       : null;
   };
-  public registrationForm: FormGroup = new FormGroup(
-    {
-      email: new FormControl([], [Validators.required, Validators.email]),
-      userName: new FormControl(
-        [],
-        [Validators.required, Validators.minLength(4), Validators.maxLength(64)]
-      ),
-      password: new FormControl(
-        [],
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(64),
-          this.createPasswordStrengthValidator(),
-        ]
-      ),
-
-      repeatPassword: new FormControl(
-        [],
-        [Validators.required, this.identityRevealedValidator]
-      ),
-      phone: new FormControl([], Validators.pattern("^[0-9_-]{9,15}")),
-    },
-    { validators: this.identityRevealedValidator }
-  );
 
   public createPasswordStrengthValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
