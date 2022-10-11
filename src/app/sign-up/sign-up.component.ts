@@ -37,11 +37,8 @@ export class SignUpComponent implements OnInit {
           ]
         ),
 
-        repeatPassword: new FormControl(
-          [],
-          [Validators.required, this.identityRevealedValidator]
-        ),
-        phone: new FormControl([], Validators.pattern("^[0-9_-]{9,15}")),
+        repeatPassword: new FormControl([], [Validators.required]),
+        phone: new FormControl([], Validators.pattern("^[0-9]{9,15}")),
       },
       { validators: this.identityRevealedValidator }
     );

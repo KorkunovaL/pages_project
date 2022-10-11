@@ -26,14 +26,14 @@
         <span> Enter your name</span>
       </div>
       <div
-        class="user_min"
+        class="alert alert-danger"
         *ngIf="registrationForm.controls['userName'].hasError('minlength')"
       >
         <span>Use 4 or more characters with a mix of letters</span>
       </div>
 
       <div
-        class="user_max"
+        class="alert alert-danger"
         *ngIf="registrationForm.controls['userName'].hasError('maxlength')"
       >
         <span>Use 64 or less characters with a mix of letters </span>
@@ -52,20 +52,20 @@
         <span> Incorrect password</span>
       </div>
       <div
-        class="password_min"
+        class="alert alert-danger"
         *ngIf="registrationForm.controls['password'].hasError('minlength')"
       >
         <span>Use 4 or more characters with a mix of letters</span>
       </div>
 
       <div
-        class="password_max"
+        class="alert alert-danger"
         *ngIf="registrationForm.controls['password'].hasError('maxlength')"
       >
         <span>Use 64 or less characters</span>
       </div>
       <div
-        class="passwordCustomValidator"
+        class="alert alert-danger"
         *ngIf="
           registrationForm.controls['password'].touched &&
           registrationForm.controls['password'].hasError('passwordStrength')
@@ -80,6 +80,7 @@
         formControlName="repeatPassword"
       />
       <div
+        class="alert alert-danger"
         *ngIf="
           (registrationForm.errors?.['identityRevealed'] ||
             registrationForm.controls['repeatPassword'].invalid) &&
@@ -94,12 +95,13 @@
       <span style="color: rgb(99, 99, 99)">+</span>
       <input placeholder="phone number" formControlName="phone" />
       <div
+        class="alert alert-danger"
         *ngIf="
           registrationForm.controls['phone'].invalid &&
           registrationForm.controls['phone'].touched
         "
       >
-        <span> The number must contain 9-12 digits</span>
+        <span> The number must contains 9-12 symbols, only digits</span>
       </div>
     </div>
 
