@@ -11,8 +11,8 @@ import { HttpClient } from "@angular/common/http";
 })
 export class SignInComponent {
   public signInForm: FormGroup = new FormGroup({
-    login: new FormControl([], Validators.required),
-    password: new FormControl([], Validators.required),
+    login: new FormControl("", Validators.required),
+    password: new FormControl("", Validators.required),
   });
   constructor(private router: Router, private http: HttpClient) {}
 

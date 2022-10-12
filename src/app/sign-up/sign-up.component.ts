@@ -11,36 +11,39 @@ import { HttpClient } from "@angular/common/http";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent implements OnInit {
-  public registrationForm!: FormGroup;
+  public formSubmitted = false;
+  public registrationForm!: FormGroup<{
+    email: FormControl<string | null>;
+    userName: FormControl<string | null>;
+    password: FormControl<string | null>;
+    repeatPassword: FormControl<string | null>;
+    phone: FormControl<string | null>;
+  }>;
 
   constructor(private router: Router, private http: HttpClient) {}
 
   public ngOnInit(): void {
     this.registrationForm = new FormGroup(
       {
-        email: new FormControl([], [Validators.required, Validators.email]),
-        userName: new FormControl(
-          [],
-          [
-            Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(64),
-          ]
-        ),
-        password: new FormControl(
-          [],
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(64),
-            this.createPasswordStrengthValidator(),
-          ]
-        ),
+        email: new FormControl("", [Validators.required, Validators.email]),
+        userName: new FormControl("", [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(64),
+        ]),
+        password: new FormControl("", [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(64),
+          this.createPasswordStrengthValidator,
+        ]),
 
-        repeatPassword: new FormControl([], [Validators.required]),
-        phone: new FormControl([], Validators.pattern("^[0-9]{9,15}")),
+        repeatPassword: new FormControl("", [Validators.required]),
+        phone: new FormControl("", Validators.pattern("^[0-9]{9,15}")),
       },
-      { validators: this.identityRevealedValidator }
+      {
+        validators: this.identityRevealedValidator,
+      }
     );
   }
 
@@ -55,24 +58,25 @@ export class SignUpComponent implements OnInit {
       : null;
   };
 
-  public createPasswordStrengthValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      if (!value) {
-        return null;
-      }
-      const hasUpperCase = /[A-Z]+/.test(value);
-      const hasNumber = /[0-9]+/.test(value);
-      const passwordValid = hasUpperCase && hasNumber;
-      return !passwordValid
-        ? { passwordStrength: { hasUpperCase: true, hasNumber: true } }
-        : null;
-    };
-  }
+  public createPasswordStrengthValidator: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) {
+      return null;
+    }
+    const passwordValid = /^(?=.*?[A-Z])(?=.*?[0-9])/.test(value);
+    return !passwordValid ? { passwordStrength: value } : null;
+  };
+
   public submit(): void {
+    this.formSubmitted = true;
+    if (this.registrationForm.valid) {
+      return;
+    }
     const payload = JSON.stringify({
       email: this.registrationForm.value.email,
-      username: this.registrationForm.value.login,
+      username: this.registrationForm.value.userName,
       password: this.registrationForm.value.password,
       repeatPassword: this.registrationForm.value.repeatPassword,
       phone: this.registrationForm.value.phone,

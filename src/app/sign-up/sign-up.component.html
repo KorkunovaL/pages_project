@@ -6,8 +6,9 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          registrationForm.controls['email'].invalid &&
-          registrationForm.controls['email'].touched
+          formSubmitted ||
+          (registrationForm.controls['email'].invalid &&
+            registrationForm.controls['email'].touched)
         "
       >
         <span>Incorrect e-mail</span>
@@ -18,25 +19,23 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          registrationForm.controls['userName'].hasError('required') &&
-          registrationForm.controls['userName'].invalid &&
-          registrationForm.controls['userName'].touched
+          formSubmitted ||
+          (registrationForm.controls['userName'].hasError('required') &&
+            registrationForm.controls['userName'].invalid &&
+            registrationForm.controls['userName'].touched)
         "
       >
         <span> Enter your name</span>
       </div>
       <div
         class="alert alert-danger"
-        *ngIf="registrationForm.controls['userName'].hasError('minlength')"
+        *ngIf="
+          formSubmitted ||
+          registrationForm.controls['userName'].hasError('minlength') ||
+          registrationForm.controls['userName'].hasError('maxlength')
+        "
       >
-        <span>Use 4 or more characters with a mix of letters</span>
-      </div>
-
-      <div
-        class="alert alert-danger"
-        *ngIf="registrationForm.controls['userName'].hasError('maxlength')"
-      >
-        <span>Use 64 or less characters with a mix of letters </span>
+        <span>Use 4 to 64 characters</span>
       </div>
     </div>
 
@@ -45,33 +44,37 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          registrationForm.controls['password'].hasError('required') &&
-          registrationForm.controls['password'].touched
+          formSubmitted ||
+          (registrationForm.controls['password'].hasError('required') &&
+            registrationForm.controls['password'].touched)
         "
       >
         <span> Incorrect password</span>
       </div>
       <div
         class="alert alert-danger"
-        *ngIf="registrationForm.controls['password'].hasError('minlength')"
+        *ngIf="
+          formSubmitted ||
+          registrationForm.controls['password'].hasError('minlength') ||
+          registrationForm.controls['password'].hasError('maxlength')
+        "
       >
-        <span>Use 4 or more characters with a mix of letters</span>
+        <span>Use 8 to 64 characters</span>
       </div>
 
       <div
         class="alert alert-danger"
-        *ngIf="registrationForm.controls['password'].hasError('maxlength')"
-      >
-        <span>Use 64 or less characters</span>
-      </div>
-      <div
-        class="alert alert-danger"
         *ngIf="
-          registrationForm.controls['password'].touched &&
+          formSubmitted ||
           registrationForm.controls['password'].hasError('passwordStrength')
         "
       >
-        <span>it must contains uppercase letters and numbers</span>
+        <span>
+          It must contains uppercase letters and numbers:
+          {{
+            registrationForm.controls["password"].errors!["passwordStrength"]
+          }}
+        </span>
       </div>
     </div>
     <div>
@@ -81,10 +84,10 @@
       />
       <div
         class="alert alert-danger"
-        *ngIf="
+        *ngIf="formSubmitted||
           (registrationForm.errors?.['identityRevealed'] ||
             registrationForm.controls['repeatPassword'].invalid) &&
-          registrationForm.controls['repeatPassword'].touched
+          registrationForm.controls['repeatPassword'].touched 
         "
       >
         <span>Password doesn't match</span>
@@ -106,14 +109,6 @@
     </div>
 
     <button [disabled]="registrationForm.invalid" type="submit">Sign up</button>
-    <div
-      class="alert alert-danger"
-      *ngIf="
-        registrationForm?.controls?.['submit']?.invalid &&
-        registrationForm?.controls?.['submit']?.touched
-      "
-    >
-      <span> Please fill in the required fields</span>
-    </div>
+    <div></div>
   </form>
 </div>
