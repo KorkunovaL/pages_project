@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { HttpService } from "../http-request/http.service.";
+import { HttpService } from "../http-request/http.service";
 
 @Component({
   selector: "app-sign-up",
@@ -86,10 +86,8 @@ export class SignUpComponent implements OnInit {
         phone.value ?? ""
       )
       .subscribe({
-        next: (response: any) => {
-          localStorage.setItem("token", response.token);
+        next: () => {
           this.router.navigateByUrl("signIn");
-          console.log(response);
         },
       });
   }

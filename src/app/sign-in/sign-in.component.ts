@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { HttpService } from "../http-request/http.service.";
+import { HttpService } from "../http-request/http.service";
 
 @Component({
   selector: "app-login",
@@ -34,7 +34,7 @@ export class SignInComponent implements OnInit {
     this.httpService
       .postDataSignIn(login.value ?? "", password.value ?? "")
       .subscribe({
-        next: (response: any) => {
+        next: (response) => {
           localStorage.setItem("token", response.token);
           this.router.navigateByUrl("/welcomePage");
           console.log(response);

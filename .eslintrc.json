@@ -10,7 +10,7 @@
       ],
       "parserOptions": {
         "project": [
-          "pages_project/tsconfig.json"
+          "**/tsconfig.json"
         ],
         "createDefaultProgram": true
       },
@@ -42,7 +42,6 @@
           {
             "accessibility": "explicit",
             "overrides": {
-              "accessors": "off",
               "constructors": "no-public"
             }
           }
