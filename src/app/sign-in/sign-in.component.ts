@@ -11,6 +11,7 @@ import { HttpService } from "../http-request/http.service.";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignInComponent implements OnInit {
+  public formSubmitted = false;
   public signInForm!: FormGroup<{
     login: FormControl<string | null>;
     password: FormControl<string | null>;
@@ -25,6 +26,10 @@ export class SignInComponent implements OnInit {
   }
 
   public testSubmit(): void {
+    this.formSubmitted = true;
+    if (!this.signInForm.valid) {
+      return;
+    }
     const { login, password } = this.signInForm.controls;
     this.httpService
       .postDataSignIn(login.value ?? "", password.value ?? "")

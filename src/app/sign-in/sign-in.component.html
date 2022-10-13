@@ -7,7 +7,7 @@
         class="alert alert-danger"
         *ngIf="
           signInForm.controls['login'].invalid &&
-          signInForm.controls['login'].touched
+          (signInForm.controls['login'].touched || this.formSubmitted)
         "
       >
         <span>Required field</span>
@@ -23,13 +23,13 @@
         class="alert alert-danger"
         *ngIf="
           signInForm.controls['password'].invalid &&
-          signInForm.controls['password'].touched
+          (signInForm.controls['password'].touched || this.formSubmitted)
         "
       >
         <span> Required field</span>
       </div>
     </div>
-    <button [disabled]="signInForm.invalid" type="submit">Sign in</button>
+    <button type="submit">Sign in</button>
     <div>
       <p>
         Not registered?
