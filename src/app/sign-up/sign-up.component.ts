@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
+import { HttpService } from "../http-request/http.service.";
 
 @Component({
   selector: "app-sign-up",
   templateUrl: "./sign-up.component.html",
   styleUrls: ["./sign-up.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [HttpService],
 })
 export class SignUpComponent implements OnInit {
   public formSubmitted = false;
@@ -20,7 +21,7 @@ export class SignUpComponent implements OnInit {
     phone: FormControl<string | null>;
   }>;
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private httpService: HttpService) {}
 
   public ngOnInit(): void {
     this.registrationForm = new FormGroup(
@@ -71,20 +72,19 @@ export class SignUpComponent implements OnInit {
 
   public submit(): void {
     this.formSubmitted = true;
-    if (this.registrationForm.valid) {
+    if (!this.registrationForm.valid) {
       return;
     }
-    const payload = JSON.stringify({
-      email: this.registrationForm.value.email,
-      username: this.registrationForm.value.userName,
-      password: this.registrationForm.value.password,
-      repeatPassword: this.registrationForm.value.repeatPassword,
-      phone: this.registrationForm.value.phone,
-    });
-    this.http
-      .post("https://dummyjson.com/users/add", payload, {
-        headers: { "Content-Type": "application/json" },
-      })
+    const { email, userName, password, repeatPassword, phone } =
+      this.registrationForm.controls;
+    this.httpService
+      .postDataSignUP(
+        email.value ?? "",
+        userName.value ?? "",
+        password.value ?? "",
+        repeatPassword.value ?? "",
+        phone.value ?? ""
+      )
       .subscribe({
         next: (response: any) => {
           localStorage.setItem("token", response.token);

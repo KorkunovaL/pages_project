@@ -6,9 +6,8 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          formSubmitted ||
-          (registrationForm.controls['email'].invalid &&
-            registrationForm.controls['email'].touched)
+          registrationForm.controls['email'].invalid &&
+          (registrationForm.controls['email'].touched || this.formSubmitted)
         "
       >
         <span>Incorrect e-mail</span>
@@ -19,10 +18,9 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          formSubmitted ||
-          (registrationForm.controls['userName'].hasError('required') &&
-            registrationForm.controls['userName'].invalid &&
-            registrationForm.controls['userName'].touched)
+          registrationForm.controls['userName'].hasError('required') &&
+          registrationForm.controls['userName'].invalid &&
+          (registrationForm.controls['userName'].touched || this.formSubmitted)
         "
       >
         <span> Enter your name</span>
@@ -30,7 +28,6 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          formSubmitted ||
           registrationForm.controls['userName'].hasError('minlength') ||
           registrationForm.controls['userName'].hasError('maxlength')
         "
@@ -44,9 +41,8 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          formSubmitted ||
-          (registrationForm.controls['password'].hasError('required') &&
-            registrationForm.controls['password'].touched)
+          registrationForm.controls['password'].hasError('required') &&
+          (registrationForm.controls['password'].touched || this.formSubmitted)
         "
       >
         <span> Incorrect password</span>
@@ -54,7 +50,6 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          formSubmitted ||
           registrationForm.controls['password'].hasError('minlength') ||
           registrationForm.controls['password'].hasError('maxlength')
         "
@@ -65,7 +60,6 @@
       <div
         class="alert alert-danger"
         *ngIf="
-          formSubmitted ||
           registrationForm.controls['password'].hasError('passwordStrength')
         "
       >
@@ -84,10 +78,9 @@
       />
       <div
         class="alert alert-danger"
-        *ngIf="formSubmitted||
-          (registrationForm.errors?.['identityRevealed'] ||
+        *ngIf="(registrationForm.errors?.['identityRevealed'] ||
             registrationForm.controls['repeatPassword'].invalid) &&
-          registrationForm.controls['repeatPassword'].touched 
+          (registrationForm.controls['repeatPassword'].touched  || this.formSubmitted)
         "
       >
         <span>Password doesn't match</span>
@@ -101,14 +94,14 @@
         class="alert alert-danger"
         *ngIf="
           registrationForm.controls['phone'].invalid &&
-          registrationForm.controls['phone'].touched
+          (registrationForm.controls['phone'].touched || this.formSubmitted)
         "
       >
         <span> The number must contains 9-12 symbols, only digits</span>
       </div>
     </div>
 
-    <button [disabled]="registrationForm.invalid" type="submit">Sign up</button>
-    <div></div>
+    <button type="submit" dis>Sign up</button>
   </form>
 </div>
+<!-- [disabled]="registrationForm.invalid" -->
